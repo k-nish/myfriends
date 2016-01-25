@@ -99,7 +99,7 @@
               <td><div class="text-center"><a href="show.html"><?php echo $post['area_name'] ?></a></div></td>
               <td><div class="text-center">3</div></td>
             </tr>
-            <?php }?>
+            <?php } ?>
             <!--<tr>
               <td><div class="text-center">2</div></td>
               <td><div class="text-center"><a href="show.html">青森</a></div></td>
