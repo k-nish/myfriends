@@ -28,6 +28,14 @@ try{
   }
   $posts[]=$rec;
   }
+
+  if(isset($_POST)&&!empty($_POST)){
+      var_dump($_POST);
+      $sql='INSERT INTO `friends`(`friend_id`, `friend_name`, `area_id`, `gender`, `age`, `created`)
+         VALUES (null,"'.$_POST['name'].'","'.$_POST['area_table_id'].'","'.$_POST['gender'].'","'.$_POST['age'].'",now())';
+      $stmt = $dbh->prepare($sql);
+      $stmt ->execute();
+  }
   //データベースから切断
   $dbh=null;
 
@@ -66,7 +74,7 @@ try{
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="index.html"><span class="strong-title"><i class="fa fa-facebook-square"></i> My friends</span></a>
+              <a class="navbar-brand" href="index.php"><span class="strong-title"><i class="fa fa-facebook-square"></i> My friends</span></a>
           </div>
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

@@ -38,13 +38,13 @@
   //var_dump($idarea['area_name']);
   
   //INSERT文
-  if(isset($_POST)&&!empty($_POST)){
-      var_dump($_POST);
-      $sql='INSERT INTO `friends`(`friend_id`, `friend_name`, `area_id`, `gender`, `age`, `created`)
-         VALUES (null,"'.$_POST['name'].'","'.$_POST['area_table_id'].'","'.$_POST['gender'].'","'.$_POST['age'].'",now())';
-      $stmt = $dbh->prepare($sql);
-      $stmt ->execute();
-  }
+  // if(isset($_POST)&&!empty($_POST)){
+  //     var_dump($_POST);
+  //     $sql='INSERT INTO `friends`(`friend_id`, `friend_name`, `area_id`, `gender`, `age`, `created`)
+  //        VALUES (null,"'.$_POST['name'].'","'.$_POST['area_table_id'].'","'.$_POST['gender'].'","'.$_POST['age'].'",now())';
+  //     $stmt = $dbh->prepare($sql);
+  //     $stmt ->execute();
+  // }
  //sql終了
  $dbh = null;
 
@@ -83,7 +83,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="index.html"><span class="strong-title"><i class="fa fa-facebook-square"></i> My friends</span></a>
+              <a class="navbar-brand" href="index.php"><span class="strong-title"><i class="fa fa-facebook-square"></i> My friends</span></a>
           </div>
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -138,7 +138,7 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">年齢</label>
               <div class="col-sm-10">
-                <input type="text" name="name" class="form-control" placeholder="例：27">
+                <input type="text" name="age" class="form-control" placeholder="例：27">
               </div>
             </div>
 
