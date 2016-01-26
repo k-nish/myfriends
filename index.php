@@ -30,12 +30,19 @@ try{
   }
 
   if(isset($_POST)&&!empty($_POST)){
-      var_dump($_POST);
+      if(isset($_POST['update'])){
+      $sql='UPDATE `friends` SET `friend_id`="'.$_POST['friend_id'].'",`friend_name`="'.$_POST['friend_name'].'",`area_id`="'.$_POST['area_id'].'",
+         `gender`="'.$_POST['gender'].'",`age`="'.$_POST['age'].'",`created`="'.$_POST['created'].'",`modified`=[value-7] WHERE id'.=$_POST['id']
+      $stmt = $dbh->prepare($sql);
+      $stmt ->execute();
+    }else{
+      //var_dump($_POST);
       $sql='INSERT INTO `friends`(`friend_id`, `friend_name`, `area_id`, `gender`, `age`, `created`)
          VALUES (null,"'.$_POST['name'].'","'.$_POST['area_table_id'].'","'.$_POST['gender'].'","'.$_POST['age'].'",now())';
       $stmt = $dbh->prepare($sql);
       $stmt ->execute();
   }
+
   //データベースから切断
   $dbh=null;
 

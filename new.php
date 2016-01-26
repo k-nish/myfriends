@@ -37,6 +37,14 @@
   $idarea=$rec;
   //var_dump($idarea['area_name']);
   
+  $idarea=array();
+  $sq='SELECT `area_name` FROM `areas` WHERE `area_id`='.$area_id;
+  //var_dump($sq);
+  $stmt = $dbh->prepare($sq);
+  $stmt ->execute();
+  $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+  //var_dump($rec);
+  $idarea=$rec;
   //INSERT文
   // if(isset($_POST)&&!empty($_POST)){
   //     var_dump($_POST);

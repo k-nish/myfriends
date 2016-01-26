@@ -12,31 +12,45 @@ $dbh = new PDO($dsn,$user,$password);
 $dbh->query('SET NAMES utf8');
 
 $id = $_GET['id'];
+
+if(isset($_GET['action'])&& ($_GET['action'] == 'edit')){
+
+$edits = array();
 $sql='SELECT * FROM `friends` WHERE friend_id='.$id;
 $stmt = $dbh->prepare($sql);
 $stmt ->execute();
-
-$edits = array();
 $rec = $stmt->fetch(PDO::FETCH_ASSOC);
-$edits[] =$rec;
-var_dump($edits);
-var_dump($edits['area_id']);
+// var_dump($rec);
+$fid=$rec['friend_id'];
+$name =$rec['friend_name'];
+$age = $rec['age'];
+$gender = $rec['gender'];
+$aid = $rec['area_id'];
+// var_dump($aid);
+
 
 $area = array();
-var_dump($edits["area_id"]);
-$sqls='SELECT * FROM `areas` WHERE `area_id`='.$edits['area_id'];
-var_dump($sqls);
+// var_dump($edits["area_id"]);
+$sqls='SELECT * FROM `areas` WHERE `area_id`='.$aid;
+// var_dump($sqls);
 $stmt = $dbh->prepare($sqls);
 $stmt ->execute();
 $req = $stmt->fetch(PDO::FETCH_ASSOC);
-$area[] = $req; 
+$aname = $req['area_name']; 
 
 
-
+$areass = array();
 $sq = 'SELECT * FROM `areas` WHERE 1';
-$stmt = $dbh->prepare($sqls);
+$stmt = $dbh->prepare($sq);
 $stmt ->execute();
-
+while (1) {
+  $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+  if ($rec==false) {
+    break;
+  }
+  $areass[] = $rec;
+}
+}
 $dbh = null;
 
 
@@ -96,9 +110,7 @@ $dbh = null;
             <div class="form-group">
               <label class="col-sm-2 control-label">名前</label>
               <div class="col-sm-10">
-                <?php foreach ($edits as $edit ) { ?>
-                <input type="text" name="name" class="form-control" placeholder="山田　太郎" value="<?php echo  $edit['name'];?>">
-                <?php } ?>
+                <input type="text" name="name" class="form-control" placeholder="山田　太郎" value="<?php echo  $name;?>">
               </div>
             </div>
             <!-- 出身 -->
@@ -106,13 +118,14 @@ $dbh = null;
               <label class="col-sm-2 control-label">出身</label>
               <div class="col-sm-10">
                 <select class="form-control" name="area_table_id">
-                  <?php foreach ($area as $a) { ?>
-                  <option value="<?php echo $a['area_id']; ?>"><?php echo $a['area_name']; ?></option> <?php } ?>
-                  <!-- <option value="1" selected>北海道</option>
-                  <option value="2">青森</option>
+                  <option value="<?php echo $aid; ?>"><?php echo $aname; ?></option> 
+                  <?php foreach ($areass as $a) { ?>
+                  <option value="<?php echo $a['area_id']; ?>"><?php echo $a['area_name']; ?></option>
+                  <?php } ?>
+                  <!-- <option value="2">青森</option>
                   <option value="3">岩手</option>
                   <option value="4">宮城</option>
-                  <option value="5">秋田</option> -->
+                  <option value="5">秋田</option> --> -->
                 </select>
               </div>
             </div>
@@ -121,9 +134,15 @@ $dbh = null;
               <label class="col-sm-2 control-label">性別</label>
               <div class="col-sm-10">
                 <select class="form-control" name="gender">
-                  <option value="0">性別を選択</option>
-                  <option value="男" selected>男性</option>
-                  <option value="女">女性</option>
+                  <option value=<?php echo $gender; ?>>
+                    <?php if($gender=='1'){
+                          echo "男性";
+                          }else if($gender=='2'){
+                            echo "女性";
+                   }?>
+                  </option>
+                  <option value="1">男性</option>
+                  <option value="2">女性</option>
                 </select>
               </div>
             </div>
@@ -131,11 +150,11 @@ $dbh = null;
             <div class="form-group">
               <label class="col-sm-2 control-label">年齢</label>
               <div class="col-sm-10">
-                <input type="text" name="name" class="form-control" placeholder="例：27" value="27">
+                <input type="text" name="name" class="form-control" value="<?php echo $age; ?>">
               </div>
             </div>
 
-          <input type="submit" class="btn btn-default" value="更新">
+          <input type="submit" href="index.php?action=update&id=<?php echo $fid; ?>" class="btn btn-default" value="更新">
         </form>
       </div>
 
