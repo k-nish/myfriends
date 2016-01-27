@@ -44,7 +44,7 @@
   if ($rec['gender'] == 1) {
     $male++;
   }
-  if ($rec['gender']==2) {
+  if ($rec['gender'] == 2) {
     $female++;
   }
   // echo $male;

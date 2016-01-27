@@ -14,30 +14,24 @@ $dbh->query('SET NAMES utf8');
 $id = $_GET['id'];
 
 if(isset($_GET['action'])&& ($_GET['action'] == 'edit')){
-
 $edits = array();
 $sql='SELECT * FROM `friends` WHERE friend_id='.$id;
 $stmt = $dbh->prepare($sql);
 $stmt ->execute();
 $rec = $stmt->fetch(PDO::FETCH_ASSOC);
-// var_dump($rec);
 $fid=$rec['friend_id'];
 $name =$rec['friend_name'];
 $age = $rec['age'];
 $gender = $rec['gender'];
 $aid = $rec['area_id'];
-// var_dump($aid);
 
 
 $area = array();
-// var_dump($edits["area_id"]);
 $sqls='SELECT * FROM `areas` WHERE `area_id`='.$aid;
-// var_dump($sqls);
 $stmt = $dbh->prepare($sqls);
 $stmt ->execute();
 $req = $stmt->fetch(PDO::FETCH_ASSOC);
 $aname = $req['area_name']; 
-
 
 $areass = array();
 $sq = 'SELECT * FROM `areas` WHERE 1';
@@ -89,7 +83,7 @@ $dbh = null;
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="index.html"><span class="strong-title"><i class="fa fa-facebook-square"></i> My friends</span></a>
+              <a class="navbar-brand" href="index.php"><span class="strong-title"><i class="fa fa-facebook-square"></i> My friends</span></a>
           </div>
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -118,10 +112,13 @@ $dbh = null;
               <label class="col-sm-2 control-label">出身</label>
               <div class="col-sm-10">
                 <select class="form-control" name="area_table_id">
-                  <option value="<?php echo $aid; ?>"><?php echo $aname; ?></option> 
                   <?php foreach ($areass as $a) { ?>
+                  <?php if ($a['area_id']==$aid) {?>
+                  <option value="<?php echo $a['area_id']; ?>" selected><?php echo $a['area_name']; ?></option>
+                  <?php }else{ ?>
                   <option value="<?php echo $a['area_id']; ?>"><?php echo $a['area_name']; ?></option>
-                  <?php } ?>
+                  <?php } }?>
+
                   <!-- <option value="2">青森</option>
                   <option value="3">岩手</option>
                   <option value="4">宮城</option>
@@ -134,15 +131,14 @@ $dbh = null;
               <label class="col-sm-2 control-label">性別</label>
               <div class="col-sm-10">
                 <select class="form-control" name="gender">
-                  <option value=<?php echo $gender; ?>>
-                    <?php if($gender=='1'){
-                          echo "男性";
-                          }else if($gender=='2'){
-                            echo "女性";
-                   }?>
-                  </option>
+                  <option value="0"><性別を選択</option>
+                  <?php if ($gender == 1) { ?>
+                      <option value="1" selected>男性</option>
+                      <option value="2">女性</option>
+                  <?php  } else {?>
                   <option value="1">男性</option>
-                  <option value="2">女性</option>
+                  <option value="2" selected>女性</option>
+                  <?php } ?>
                 </select>
               </div>
             </div>

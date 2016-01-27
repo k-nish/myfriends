@@ -1,5 +1,5 @@
 <?php
-try{
+//try{
   $dsn = 'mysql:dbname=myfriend;host=localhost';
     
   // 接続するためのユーザー情報
@@ -22,20 +22,20 @@ try{
   while(1){
 
   //実行結果として得られたデータを表示
-  $rec = $stmt->fetch(PDO::FETCH_ASSOC);
-  if($rec == false){
+      $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+      if($rec == false){
           break;
-  }
-  $posts[]=$rec;
+      }
+      $posts[]=$rec;
   }
 
   if(isset($_POST)&&!empty($_POST)){
-      if(isset($_POST['update'])){
-      $sql='UPDATE `friends` SET `friend_id`="'.$_POST['friend_id'].'",`friend_name`="'.$_POST['friend_name'].'",`area_id`="'.$_POST['area_id'].'",
-         `gender`="'.$_POST['gender'].'",`age`="'.$_POST['age'].'",`created`="'.$_POST['created'].'",`modified`=[value-7] WHERE id'.=$_POST['id']
-      $stmt = $dbh->prepare($sql);
-      $stmt ->execute();
-    }else{
+    //   if(isset($_POST['update'])){
+    //   $sql='UPDATE `friends` SET `friend_id`="'.$_POST['friend_id'].'",`friend_name`="'.$_POST['friend_name'].'",`area_id`="'.$_POST['area_id'].'",
+    //      `gender`="'.$_POST['gender'].'",`age`="'.$_POST['age'].'",`created`="'.$_POST['created'].'",`modified`=[value-7] WHERE id'.=$_POST['id']
+    //   $stmt = $dbh->prepare($sql);
+    //   $stmt ->execute();
+    // }else{
       //var_dump($_POST);
       $sql='INSERT INTO `friends`(`friend_id`, `friend_name`, `area_id`, `gender`, `age`, `created`)
          VALUES (null,"'.$_POST['name'].'","'.$_POST['area_table_id'].'","'.$_POST['gender'].'","'.$_POST['age'].'",now())';
@@ -43,6 +43,34 @@ try{
       $stmt ->execute();
   }
 
+  //友達人数を集計する
+  $fr = array();
+  $ssql='SELECT * FROM `friends` WHERE 1';
+  $stmt = $dbh->prepare($ssql);
+  $stmt ->execute(); 
+  while (1) {
+    $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+    if($rec==false){
+      break;
+    }
+    $fr[] = $rec;
+  }
+  
+  // echo $fr[0]['area_id'];
+  $count = array();
+  $c = 0;
+  for($i=1;$i<47;$i++){
+      for ($j=0;$j<100;$j++)  {
+          if ($fr[i]['area_id']==$area_id['j']) {
+              $c++;
+          }
+          if ($fr[i]['area_id']==false) {
+              break;
+          }
+         $count[] = $c;
+      }
+  } 
+  // }
   //データベースから切断
   $dbh=null;
 
@@ -147,8 +175,8 @@ try{
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
-<?php
-}catch(Exception $e){
-  echo "サーバーエラーにより障害が発生しております。";
-}
-
+<!--<?php
+//}//catch(Exception $e){
+  //echo "サーバーエラーにより障害が発生しております。";
+//}?>
+ -->
