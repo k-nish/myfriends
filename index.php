@@ -12,40 +12,24 @@
   // 接続したDBオブジェクトで文字コードutf8を使うように指定
   $dbh->query('SET NAMES utf8');
 
-  //$sql='SELECT*FROM posts WHERE 1 ORDER BY `id` DESC' ;
-  $sql='SELECT * FROM `areas` WHERE 1';
-  //var_dump($sql);
-  $stmt = $dbh->prepare($sql);
-  $stmt ->execute();
-  $posts = array();
-  
-  while(1){
-
-  //実行結果として得られたデータを表示
-      $rec = $stmt->fetch(PDO::FETCH_ASSOC);
-      if($rec == false){
-          break;
-      }
-      $posts[]=$rec;
-  }
-
   if(isset($_POST)&&!empty($_POST)){
-    //   if(isset($_POST['update'])){
-    //   $sql='UPDATE `friends` SET `friend_id`="'.$_POST['friend_id'].'",`friend_name`="'.$_POST['friend_name'].'",`area_id`="'.$_POST['area_id'].'",
-    //      `gender`="'.$_POST['gender'].'",`age`="'.$_POST['age'].'",`created`="'.$_POST['created'].'",`modified`=[value-7] WHERE id'.=$_POST['id']
-    //   $stmt = $dbh->prepare($sql);
-    //   $stmt ->execute();
-    // }else{
-      //var_dump($_POST);
+      if(isset($_POST['update'])){
+      $sql='UPDATE `friends` SET `friend_id`='.$_POST['friend_id'].',`friend_name`="'.$_POST['friend_name'].'",`area_id`='.$_POST['area_id'].',
+         `gender`='.$_POST['gender'].',`age`='.$_POST['age'].',`created`="'.$_POST['created'].'" WHERE id='.$_POST['id'];
+      $stmt = $dbh->prepare($sql);
+      $stmt ->execute();
+    }else{
+      var_dump($_POST);
       $sql='INSERT INTO `friends`(`friend_id`, `friend_name`, `area_id`, `gender`, `age`, `created`)
          VALUES (null,"'.$_POST['name'].'","'.$_POST['area_table_id'].'","'.$_POST['gender'].'","'.$_POST['age'].'",now())';
       $stmt = $dbh->prepare($sql);
       $stmt ->execute();
   }
-
+  }
   //友達人数を集計する
   $fr = array();
-  $ssql='SELECT * FROM `friends` WHERE 1';
+  $ssql='SELECT `areas`.`area_id`,`areas`.`area_name`,COUNT(`friends`.`friend_id`)AS friend_cnt FROM `areas`
+        LEFT OUTER JOIN `friends`ON `areas`.`area_id`= `friends`.`area_id`WHERE 1 GROUP BY `areas`.`area_id`';
   $stmt = $dbh->prepare($ssql);
   $stmt ->execute(); 
   while (1) {
@@ -56,21 +40,17 @@
     $fr[] = $rec;
   }
   
-  // echo $fr[0]['area_id'];
-  $count = array();
-  $c = 0;
-  for($i=1;$i<47;$i++){
-      for ($j=0;$j<100;$j++)  {
-          if ($fr[i]['area_id']==$area_id['j']) {
-              $c++;
-          }
-          if ($fr[i]['area_id']==false) {
-              break;
-          }
-         $count[] = $c;
-      }
-  } 
-  // }
+  if (isset($_POST)&&!empty($_POST['search_friend'])) {
+    $sql = 'SELECT * FROM `friends` WHERE `friend_name` LIKE "%name%"';
+    $stmt = $dbh->prepare($sql);
+    $stmt ->execute();
+    $friends = $rec
+  }
+ // $ql = 'SELECT `areas`.`area_id`,`areas`.`area_name`,COUNT(`friends`.`friend_id`)AS friend_cnt FROM `areas`
+ //        LEFT OUTER JOIN `friends`ON `areas`.`area_id`= `friends`.`area_id`WHERE 1 GROUP BY `areas`.`area_id`';
+ // $stmt = $dbh ->prepare($ql);
+ // $stmt -> execute();
+
   //データベースから切断
   $dbh=null;
 
@@ -99,10 +79,10 @@
     <![endif]-->
   </head>
   <body>
-  <!-- <nav class="navbar navbar-default navbar-fixed-top"> -->
-      <!-- <div class="container"> -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
           <!-- Brand and toggle get grouped for better mobile display -->
-          <!-- <div class="navbar-header page-scroll"> -->
+          <div class="navbar-header page-scroll">
               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                   <span class="sr-only">Toggle navigation</span>
                   <span class="icon-bar"></span>
@@ -137,11 +117,11 @@
             <!-- id, 県名を表示 -->
             <tr>
               <?php
-            foreach($posts as $post){ ?>
+            foreach($fr as $post){ ?>
               <!--for($i=0;$i<47;$i++){?>-->
               <td><div class="text-center"><?php echo $post['area_id'] ?></div></td>
               <td><div class="text-center"><a href="show.php?area_id=<?php echo $post['area_id']; ?>"><?php echo $post['area_name'] ?></a></div></td>
-              <td><div class="text-center">3</div></td>
+              <td><div class="text-center"><?php echo $post['friend_cnt']; ?></div></td>
             </tr>
             <?php } ?>
             <!--<tr>

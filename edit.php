@@ -73,10 +73,10 @@ $dbh = null;
     <![endif]-->
   </head>
   <body>
-  <!-- <nav class="navbar navbar-default navbar-fixed-top">
+  <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
           <!-- Brand and toggle get grouped for better mobile display -->
-          <!-- <div class="navbar-header page-scroll"> -->
+          <div class="navbar-header page-scroll">
               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                   <span class="sr-only">Toggle navigation</span>
                   <span class="icon-bar"></span>
@@ -90,7 +90,7 @@ $dbh = null;
               <ul class="nav navbar-nav navbar-right">
               </ul>
           </div>
-          <!-- /.navbar-collapse -->
+          <!-- /.navbar-collapse
       </div>
       <!-- /.container-fluid -->
   </nav>
@@ -99,7 +99,7 @@ $dbh = null;
     <div class="row">
       <div class="col-md-4 content-margin-top">
         <legend>友達の編集</legend>
-        <form method="post" action="" class="form-horizontal" role="form">
+        <form method="post" action="index.php?aciton=update&id=<?php echo $fid; ?>" class="form-horizontal" role="form">
             <!-- 名前 -->
             <div class="form-group">
               <label class="col-sm-2 control-label">名前</label>
@@ -146,11 +146,11 @@ $dbh = null;
             <div class="form-group">
               <label class="col-sm-2 control-label">年齢</label>
               <div class="col-sm-10">
-                <input type="text" name="name" class="form-control" value="<?php echo $age; ?>">
+                <input type="text" name="age" class="form-control" value="<?php echo $age; ?>">
               </div>
             </div>
 
-          <input type="submit" href="index.php?action=update&id=<?php echo $fid; ?>" class="btn btn-default" value="更新">
+          <input type="submit" class="btn btn-default" value="更新">
         </form>
       </div>
 

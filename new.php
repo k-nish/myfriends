@@ -24,35 +24,22 @@
     $area[] = $rec;
   }
   
-  //var_dump($_GET['area_id']);
-  //var_dump($_GET['id']);
   $area_id = $_GET['id'];
   $idarea=array();
   $sq='SELECT `area_name` FROM `areas` WHERE `area_id`='.$area_id;
-  //var_dump($sq);
   $stmt = $dbh->prepare($sq);
   $stmt ->execute();
   $rec = $stmt->fetch(PDO::FETCH_ASSOC);
-  //var_dump($rec);
   $idarea=$rec;
-  //var_dump($idarea['area_name']);
   
-  $idarea=array();
-  $sq='SELECT `area_name` FROM `areas` WHERE `area_id`='.$area_id;
-  //var_dump($sq);
-  $stmt = $dbh->prepare($sq);
-  $stmt ->execute();
-  $rec = $stmt->fetch(PDO::FETCH_ASSOC);
-  //var_dump($rec);
-  $idarea=$rec;
-  //INSERT文
-  // if(isset($_POST)&&!empty($_POST)){
-  //     var_dump($_POST);
-  //     $sql='INSERT INTO `friends`(`friend_id`, `friend_name`, `area_id`, `gender`, `age`, `created`)
-  //        VALUES (null,"'.$_POST['name'].'","'.$_POST['area_table_id'].'","'.$_POST['gender'].'","'.$_POST['age'].'",now())';
-  //     $stmt = $dbh->prepare($sql);
-  //     $stmt ->execute();
-  // }
+  INSERT文
+  if(isset($_POST)&&!empty($_POST)){
+      $sql='INSERT INTO `friends`(`friend_id`, `friend_name`, `area_id`, `gender`, `age`, `created`)
+         VALUES (null,"'.$_POST['name'].'",'.$_POST['area_table_id'].','.$_POST['gender'].','.$_POST['age'].',now())';
+      $stmt = $dbh->prepare($sql);
+      $stmt ->execute();
+      header('Location: index.php');
+  }
  //sql終了
  $dbh = null;
 
@@ -81,11 +68,11 @@
     <![endif]-->
   </head>
   <body>
-  <!--<nav class="navbar navbar-default navbar-fixed-top">
+  <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <!-- <div class="navbar-header page-scroll"> -->
-              <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> -->
+          <!-- Brand and toggle get grouped for better mobile display  -->
+          <div class="navbar-header page-scroll">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                   <span class="sr-only">Toggle navigation</span>
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
@@ -115,7 +102,7 @@
                 <input type="text" name="name" class="form-control" placeholder="例：山田　太郎">
               </div>
             </div>
-            <!-- 出身 -->
+            <!-- 出身-->
             <div class="form-group">
               <label class="col-sm-2 control-label">出身</label>
               <div class="col-sm-10">
