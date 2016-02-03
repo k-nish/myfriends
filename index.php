@@ -14,18 +14,19 @@
 
   if(isset($_POST)&&!empty($_POST)){
       if(isset($_POST['update'])){
-      $sql='UPDATE `friends` SET `friend_id`='.$_POST['friend_id'].',`friend_name`="'.$_POST['friend_name'].'",`area_id`='.$_POST['area_id'].',
-         `gender`='.$_POST['gender'].',`age`='.$_POST['age'].',`created`="'.$_POST['created'].'" WHERE id='.$_POST['id'];
-      $stmt = $dbh->prepare($sql);
-      $stmt ->execute();
-    }else{
-      var_dump($_POST);
-      $sql='INSERT INTO `friends`(`friend_id`, `friend_name`, `area_id`, `gender`, `age`, `created`)
-         VALUES (null,"'.$_POST['name'].'","'.$_POST['area_table_id'].'","'.$_POST['gender'].'","'.$_POST['age'].'",now())';
-      $stmt = $dbh->prepare($sql);
-      $stmt ->execute();
+          $sql='UPDATE `friends` SET `friend_id`='.$_POST['friend_id'].',`friend_name`="'.$_POST['friend_name'].'",`area_id`='.$_POST['area_id'].',
+              `gender`='.$_POST['gender'].',`age`='.$_POST['age'].',`created`="'.$_POST['created'].'" WHERE id='.$_POST['id'];
+          $stmt = $dbh->prepare($sql);
+          $stmt ->execute();
+      }else{
+          var_dump($_POST);
+          $sql='INSERT INTO `friends`(`friend_id`, `friend_name`, `area_id`, `gender`, `age`, `created`)
+              VALUES (null,"'.$_POST['name'].'","'.$_POST['area_table_id'].'","'.$_POST['gender'].'","'.$_POST['age'].'",now())';
+          $stmt = $dbh->prepare($sql);
+          $stmt ->execute();
+      }
   }
-  }
+  
   //友達人数を集計する
   $fr = array();
   $ssql='SELECT `areas`.`area_id`,`areas`.`area_name`,COUNT(`friends`.`friend_id`)AS friend_cnt FROM `areas`
@@ -44,7 +45,7 @@
     $sql = 'SELECT * FROM `friends` WHERE `friend_name` LIKE "%name%"';
     $stmt = $dbh->prepare($sql);
     $stmt ->execute();
-    $friends = $rec
+    $friends = $rec;
   }
  // $ql = 'SELECT `areas`.`area_id`,`areas`.`area_name`,COUNT(`friends`.`friend_id`)AS friend_cnt FROM `areas`
  //        LEFT OUTER JOIN `friends`ON `areas`.`area_id`= `friends`.`area_id`WHERE 1 GROUP BY `areas`.`area_id`';
